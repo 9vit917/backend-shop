@@ -13,7 +13,7 @@ provider:
     profile: kavi
     region: eu-central-1
     environment:
-        CARS_TABLE_NAME: kavi-shop-cars
+        CARS_TABLE_NAME: car-shop-table
     iam:
         role:
             permissionsBoundary: 'arn:aws:iam::${aws:accountId}:policy/eo_role_boundary'

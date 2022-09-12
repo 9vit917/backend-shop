@@ -1,6 +1,6 @@
 {
 	"Table": {
-		"TableName": "kavi-shop-cars",
+		"TableName": "car-shop-table",
 		"KeySchema": [{
 			"AttributeName": "id",
 			"KeyType": "HASH"

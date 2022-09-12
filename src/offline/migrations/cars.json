@@ -1,0 +1,17 @@
+{
+	"Table": {
+		"TableName": "kavi-shop-cars",
+		"KeySchema": [{
+			"AttributeName": "id",
+			"KeyType": "HASH"
+		}],
+		"AttributeDefinitions": [{
+			"AttributionName": "id",
+			"AttributeType": "S"
+		}],
+		"ProvisionedThroughput": {
+			"ReadCapacityUnits": 1,
+			"WriteCapacityUnits": 1
+		}
+	}
+}

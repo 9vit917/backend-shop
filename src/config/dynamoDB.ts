@@ -55,7 +55,6 @@ export const Dynamo = {
 		};
 		try {
 			const res = await documentClient.put(params).promise();
-			console.log(res)
 			return newCarData;
 		} catch (err) {
 			console.log(err);

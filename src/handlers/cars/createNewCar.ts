@@ -15,7 +15,7 @@ module.exports.handler = async (event: any) => {
 		if (newCar?.id) {
 			return createNewCarResponse.success(`Car ${newCar.id} was created`);
 		} else {
-			return createNewCarResponse.failed("something went wrong");
+			return createNewCarResponse.failed("Something went wrong");
 		}
 	} catch (error) {
 		return createNewCarResponse.failed(error.message);

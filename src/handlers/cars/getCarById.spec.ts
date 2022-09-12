@@ -4,7 +4,8 @@ import axios from 'axios'
 describe('getCarById', () => {
     describe('Positive test with the right id', () => {
         test('should be return car with id = 1', () => {
-            axios.get(`${API_URL}/cars/1`).then((response) => {
+			const id = "852f0597-ade4-4717-a027-6d8612f647d3";
+            axios.get(`${API_URL}/cars/${id}`).then((response) => {
                 expect(response.status).toBe(200)
             })
         })

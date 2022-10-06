@@ -14,7 +14,7 @@ const getCarResponse = {
 		}),
 		"failed": (message) => ({
 			statusCode: 500,
-			message: message,
+			body: JSON.stringify(message),
 			headers
 		})
 	},
@@ -24,17 +24,34 @@ const getCarResponse = {
 			body: JSON.stringify(car),
 			headers
 		}),
-		"notFound": () => ({
+		"notFound": (message) => ({
 			statusCode: 404,
-			body: {},
+			body: JSON.stringify(message),
 			headers
 		}),
 		"failed": (message) => ({
 			statusCode: 500,
-			message: message,
+			body: JSON.stringify(message),
 			headers
 		})
-	}
+	},
+	createNewCarResponse: {
+		"success": (message) => ({
+			statusCode: 200,
+			body: JSON.stringify({message}),
+			headers
+		}),
+		"failed": (message) => ({
+			statusCode: 500,
+			body: JSON.stringify({message}),
+			headers
+		}),
+		"validationFailed": (message) => ({
+			statusCode: 400,
+			body: JSON.stringify({message}),
+			headers
+		})
+	},
 }
 
 export default getCarResponse

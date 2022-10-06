@@ -1,0 +1,48 @@
+service: import-service
+frameworkVersion: '3'
+
+provider:
+    name: aws
+    runtime: nodejs16.x
+    stage: dev
+    profile: kavi
+    region: eu-central-1
+    environment:
+        BUCKET_NAME: ${self:custom.bucketName}
+        BUCKET_REGION: ${self:provider.region}
+    iam:
+        role:
+            permissionsBoundary: 'arn:aws:iam::${aws:accountId}:policy/eo_role_boundary'
+            statements:
+                - Effect: Allow
+                  Action: s3:ListBucket
+                  Resource:
+                      - arn:aws:s3:::${self:custom.bucketName}
+                - Effect: Allow
+                  Action: s3:*
+                  Resource:
+                      - arn:aws:s3:::${self:custom.bucketName}/*
+plugins:
+    - serverless-offline
+
+custom:
+    bucketName: import-service-${self:provider.stage}
+
+functions:
+    importProductsFile:
+        handler: handlers/cars/getCarList.handler
+        events:
+            - http:
+                  path: /import
+                  method: get
+                  cors: true
+    importFileParser:
+        handler: handlers/cars/createNewCar.handler
+        events:
+            - s3:
+                  bucket: ${self:custom.bucketName}
+                  event: s3:ObjectCreated:*
+                  rules:
+                      - prefix: uploaded/
+                      - suffix: .csv
+                  existing: true

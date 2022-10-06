@@ -20,7 +20,7 @@ const carController = {
 			title: newCarData.title,
 			description: newCarData.description || '',
 			price: newCarData.price,
-			count: newCarData.count || 0,
+			count: newCarData.count || 1,
 		};
 		const data = await Dynamo.createNewCarItem(newCar);
 		console.log('newCar', data);

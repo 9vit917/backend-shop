@@ -1,12 +1,12 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
-import { ImportServiceInterface } from '../controllers/importService';
+import ImportServiceInterface  from '../controllers/importService';
 
 import importServiceResponse from '../mock/response-mock';
-import { CartItem } from '../models/CartItem';
+import { CarItem } from '../models/CarItem';
 
 export const importProductsFile =
-  (importService: ImportServiceInterface<CartItem>) =>
+  (importService: ImportServiceInterface<CarItem>) =>
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     console.log('Lambda invocation with event: ', JSON.stringify(event));
 

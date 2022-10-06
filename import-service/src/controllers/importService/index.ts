@@ -8,14 +8,14 @@ import {
 } from 'aws-sdk/client-s3';
 import { Readable } from 'stream';
 
-import { FileParserInterface } from '../fileParser';
+import FileParserInterface from '../fileParser';
 
 interface ImportServiceInterface<T> {
 	createUploadUrl(fileName: string): Promise<string>;
 	parseUploadedFile(fileName: string): Promise<T[]>;
   }
 
-const UPLOADED_FOLDER_NAME = 'uploaded';
+const UPLOADED_FOLDER_NAME = 'kavi-uploaded';
 const PARSED_FOLDER_NAME = 'parsed';
 const EXPIRATION_DEFAULT = 60;
 

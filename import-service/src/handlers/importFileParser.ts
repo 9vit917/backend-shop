@@ -1,10 +1,10 @@
 import { S3Event, S3Handler } from 'aws-lambda';
 
-import { ImportServiceInterface } from '@/services/importService';
-import { Product } from '@/types/products';
+import ImportServiceInterface from '../controllers/importService';
+import { CarItem } from '../models/CarItem';
 
 export const importFileParser =
-  (importService: ImportServiceInterface<Product>): S3Handler =>
+  (importService: ImportServiceInterface<CarItem>): S3Handler =>
   async (event: S3Event) => {
     console.log('Lambda invocation with event: ', JSON.stringify(event));
 
@@ -15,7 +15,7 @@ export const importFileParser =
 
           console.log('Start file parsing: ', fileName);
 
-          const parsed: Product[] = await importService.parseUploadedFile(fileName);
+          const parsed: CarItem[] = await importService.parseUploadedFile(fileName);
 
           console.log('File parsed successfully: ', JSON.stringify(parsed));
         })

@@ -1,4 +1,4 @@
-service: import-service
+service: import-service-kavi
 frameworkVersion: '3'
 
 provider:
@@ -24,20 +24,21 @@ provider:
                       - arn:aws:s3:::${self:custom.bucketName}/*
 plugins:
     - serverless-offline
+    - serverless-plugin-typescript
 
 custom:
-    bucketName: import-service-${self:provider.stage}
+    bucketName: kavi-uploaded
 
 functions:
     importProductsFile:
-        handler: handlers/cars/getCarList.handler
+        handler: src/handlers/importProductsFile.handler
         events:
             - http:
                   path: /import
                   method: get
                   cors: true
     importFileParser:
-        handler: handlers/cars/createNewCar.handler
+        handler: src/handlers/importFileParser.handler
         events:
             - s3:
                   bucket: ${self:custom.bucketName}
@@ -46,3 +47,9 @@ functions:
                       - prefix: uploaded/
                       - suffix: .csv
                   existing: true
+resources:
+    extensions:
+        IamRoleCustomResourcesLambdaExecution:
+            Properties:
+                PermissionsBoundary: 'arn:aws:iam::${aws:accountId}:policy/eo_role_boundary'
+

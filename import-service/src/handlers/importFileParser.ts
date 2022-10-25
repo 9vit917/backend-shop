@@ -1,26 +1,29 @@
-import { S3Event, S3Handler } from 'aws-lambda';
+import { S3Event } from 'aws-lambda';
 
-import ImportServiceInterface from '../controllers/importService';
+import ImportService from '../controllers/importService';
 import { CarItem } from '../models/CarItem';
 
-export const importFileParser =
-  (importService: ImportServiceInterface<CarItem>): S3Handler =>
-  async (event: S3Event) => {
-    console.log('Lambda invocation with event: ', JSON.stringify(event));
+module.exports.handler = async (event: S3Event) => {
+	console.log('Lambda invocation with event: ', JSON.stringify(event));
 
-    try {
-      await Promise.all(
-        event.Records.map(async (record) => {
-          const fileName = record.s3.object.key;
+	try {
+		await Promise.all(
+			event.Records.map(async (record) => {
+				const fileName = record.s3.object.key;
 
-          console.log('Start file parsing: ', fileName);
+				console.log('Start file parsing: ', fileName);
 
-          const parsed: CarItem[] = await importService.parseUploadedFile(fileName);
+				const parsed: CarItem[] = await ImportService.parseUploadedFile(
+					fileName
+				);
 
-          console.log('File parsed successfully: ', JSON.stringify(parsed));
-        })
-      );
-    } catch (e) {
-      console.log('An error occured while parsing the file', e);
-    }
-  };
+				console.log(
+					'File parsed successfully: ',
+					JSON.stringify(parsed)
+				);
+			})
+		);
+	} catch (e) {
+		console.log('An error occured while parsing the file', e);
+	}
+};

@@ -76,4 +76,17 @@ resources:
                 ProvisionedThroughput:
                     ReadCapacityUnits: 1
                     WriteCapacityUnits: 1
+        StockDynamoDbTable:
+            Type: AWS::DynamoDB::Table
+            Properties:
+                TableName: stock-car-shop-table
+                AttributeDefinitions:
+                    - AttributeName: car_id
+                      AttributeType: S
+                KeySchema:
+                    - AttributeName: car_id
+                      KeyType: HASH
+                ProvisionedThroughput:
+                    ReadCapacityUnits: 1
+                    WriteCapacityUnits: 1
                 

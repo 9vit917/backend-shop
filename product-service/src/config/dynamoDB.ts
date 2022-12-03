@@ -36,6 +36,7 @@ export const Dynamo = {
 	async getCarList() {
 		const params = {
 			TableName: CARS_TABLE_NAME,
+			KeyConditionExpression: "PK = :pk and Sk = :sk"
 		};
 		try {
 			const res = await documentClient.scan(params).promise();
@@ -51,14 +52,31 @@ export const Dynamo = {
 	async createNewCarItem(newCarData: CartItem) {
 		const params = {
 			TableName: CARS_TABLE_NAME,
-			Item: newCarData,
+			Item: {
+				"PK": newCarData.id,
+				"SK": "car",
+				"id": newCarData.id,
+				"title": newCarData.title,
+				"price": newCarData.price,
+				"description": newCarData.description
+			},
 		};
 		try {
-			const res = await documentClient.put(params).promise();
-			return newCarData;
+			const res = await documentClient.put(params).promise().then(async () => {
+				const stockParams = {
+					TableName: CARS_TABLE_NAME,
+					Item: {
+						"PK": newCarData.id,
+						"SK": "stock",
+						"count": newCarData.count || 1,
+					}
+				};
+				await documentClient.put(stockParams)
+			});
 		} catch (err) {
 			console.log(err);
 			console.log(`There was an error adding new item to table`);
 		}
+		return newCarData;
 	},
 };

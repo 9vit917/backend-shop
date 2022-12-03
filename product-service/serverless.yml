@@ -14,6 +14,10 @@ provider:
     region: eu-central-1
     environment:
         CARS_TABLE_NAME: car-shop-table
+        SQS_ARN: 'arn:aws:sqs:eu-central-1:398158581759:carShopViktarKazachenka'
+        SNS_TOPIC_NAME: 'topicViktarKazachenka'
+        SNS_ARN: 
+          - Ref: 'topicViktarKazachenka'
     iam:
         role:
             permissionsBoundary: 'arn:aws:iam::${aws:accountId}:policy/eo_role_boundary'
@@ -22,6 +26,7 @@ provider:
                   Action:
                       - 'dynamodb:*'
                       - 's3:*'
+                      - 'sns:*'
                   Resource: '*'
 
 custom:
@@ -61,6 +66,12 @@ functions:
                       parameters:
                           paths:
                               id: true
+    catalogBatchProcess:
+        handler: src/handlers/cars/catalogBatchProcess.handler
+        events:
+          - sqs:
+              batchSize: 5,
+              arn: '${self:provider.environment.SQS_ARN}'
 resources:
     Resources:
         CarsDynamoDbTable:
@@ -89,4 +100,15 @@ resources:
                 ProvisionedThroughput:
                     ReadCapacityUnits: 1
                     WriteCapacityUnits: 1
+      topicViktarKazachenka:
+            Type: 'AWS::SNS::Topic'
+            Properties:
+                TopicName: `${self:provider.environment.SNS_TOPIC_NAME}`
+      SNSSubscription:
+            Type: 'AWS::SNS::Subscription'
+            Properties:
+                Endpoint: '9vit917@gmail.com'
+                Protocol: 'email'
+                TopicArn:
+                  - Ref: '${self:provider.environment.SNS_TOPIC_NAME}'
                 

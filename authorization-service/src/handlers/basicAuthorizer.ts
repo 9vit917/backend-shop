@@ -10,14 +10,16 @@ console.log('Event', JSON.stringify(event));
   try {
     const { authorizationToken } = event || {};
 
-    const encodedCreds = authorizationToken.split(' ')[1];
-    const buff = Buffer.from(encodedCreds, 'base64');
+	const encodedCreds = authorizationToken.split(' ')[1];
+	console.log('encodesCreds:', encodedCreds)
+	const buff = Buffer.from(encodedCreds, 'base64');
+	console.log('buff:', buff)
 
     const [username, password] = buff.toString('utf-8').split(':');
     console.log(`username: ${username} and password: ${password}`);
 
-    const storedUserPassword = process.env[password];
-    const storedUserName = process.env[username];
+    const storedUserPassword = process.env.PASSWORD;
+    const storedUserName = process.env.USERNAME;
     console.log('stored password ----- ', storedUserPassword, 'username', storedUserName);
 
     const effect = storedUserPassword !== password || storedUserName !== username ? 'Deny' : 'Allow';

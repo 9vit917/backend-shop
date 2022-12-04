@@ -37,6 +37,12 @@ functions:
                   path: /import
                   method: get
                   cors: true
+                  authorizer:
+                      name: basicAuthorizer
+                      arn: 'arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:authorization-service-dev-basicAuthorizer'
+                      resultTtlInSeconds: 0
+                      identitySource: 'method.request.header.Authorization'
+                      type: 'token'
     importFileParser:
         handler: src/handlers/importFileParser.handler
         events:
@@ -52,4 +58,3 @@ resources:
         IamRoleCustomResourcesLambdaExecution:
             Properties:
                 PermissionsBoundary: 'arn:aws:iam::${aws:accountId}:policy/eo_role_boundary'
-

@@ -52,6 +52,23 @@ const getCarResponse = {
 			headers
 		})
 	},
+	catalogBatchProcess: {
+		"success": () => ({
+			statusCode: 200,
+			body: '',
+			headers
+		}),
+		"failed": (message) => ({
+			statusCode: 500,
+			body: JSON.stringify({message}),
+			headers
+		}),
+		"validationFailed": (message) => ({
+			statusCode: 400,
+			body: JSON.stringify({message}),
+			headers
+		})
+	},
 }
 
 export default getCarResponse

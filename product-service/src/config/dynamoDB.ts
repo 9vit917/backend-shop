@@ -11,7 +11,7 @@ if (process.env.IS_OFFLINE) {
 }
 
 const documentClient = new AWS.DynamoDB.DocumentClient(options);
-const CARS_TABLE_NAME = process.env.CARS_TABLE_NAME;
+const CARS_TABLE_NAME = 'car-shop-table';
 
 export const Dynamo = {
 	async getCarById(id) {

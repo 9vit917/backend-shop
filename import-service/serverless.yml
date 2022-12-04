@@ -28,7 +28,6 @@ plugins:
 
 custom:
     bucketName: kavi-uploaded
-    SQS_NAME: 'catalogItemsQueueViktarKazachenka'
 
 functions:
     importProductsFile:
